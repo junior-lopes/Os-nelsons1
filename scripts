@@ -1,0 +1,115 @@
+from netmiko import ConnectHandler
+
+
+R2 = {
+   'device_type': 'cisco_ios',
+   'host': '10.0.0.1',
+   'username': 'andre',
+   'password': '12345',
+	}
+
+CORE = {
+   'device_type': 'cisco_ios',
+   'host': '10.30.0.2',
+   'username': 'andre',
+   'password': '12345',
+	}
+
+R4 = {
+   'device_type': 'cisco_ios',
+   'host': '10.10.0.2',
+   'username': 'andre',
+   'password': '12345',
+	}
+
+R5 = {
+   'device_type': 'cisco_ios',
+   'host': '10.40.0.1',
+   'username': 'andre',
+   'password': '12345',
+	}
+
+R6 = {
+   'device_type': 'cisco_ios',
+   'host': '10.20.0.2',
+   'username': 'andre',
+   'password': '12345',
+	}
+
+
+
+net_connect = ConnectHandler(**R2)
+
+#configuracao R2
+bgpr2 = [
+   "router bgp 200",
+   "neighbor 3.3.3.3 remote-as 200",
+   "neighbor 3.3.3.3 update-source lo1",
+   "end",
+   "wr",
+]
+
+vconfigurar = net_connect.send_config_set(bgpr2)
+
+net_connect = ConnectHandler(**CORE)
+
+#configuracao CORE
+bgpcore = [
+   "router bgp 200",
+   "neighbor ANDRE peer-group",
+   "neighbor ANDRE remote-as 200",
+   "neighbor ANDRE update-source lo1",
+   "neighbor ANDRE route-reflector-client",
+   "neighbor 1.1.1.1 peer-group ANDRE",
+   "neighbor 2.2.2.2 peer-group ANDRE",
+   "neighbor 4.4.4.4 peer-group ANDRE",
+   "neighbor 5.5.5.5 peer-group ANDRE",
+   "neighbor 6.6.6.6 peer-group ANDRE",
+   "network 192.168.10.0 mask 255.255.255.0",
+   "network 192.168.20.0 mask 255.255.255.0",
+   "end",
+   "wr",
+]
+
+vconfigurar = net_connect.send_config_set(bgpcore)
+
+net_connect = ConnectHandler(**R4)
+
+#configuracao R4
+bgpr4 = [
+   "router bgp 200",
+   "neighbor 3.3.3.3 remote-as 200",
+   "neighbor 3.3.3.3 update-source lo1",
+   "end",
+   "wr",
+]
+
+vconfigurar = net_connect.send_config_set(bgpr4)
+
+net_connect = ConnectHandler(**R5)
+
+#configuracao R5
+bgpr5 = [
+   "router bgp 200",
+   "neighbor 3.3.3.3 remote-as 200",
+   "neighbor 3.3.3.3 update-source lo1",
+   "end",
+   "wr",
+]
+
+vconfigurar = net_connect.send_config_set(bgpr5)
+
+net_connect = ConnectHandler(**R6)
+
+#configuracao R6
+bgpr6 = [
+   "router bgp 200",
+   "neighbor 3.3.3.3 remote-as 200",
+   "neighbor 3.3.3.3 update-source lo1",
+   "end",
+   "wr",
+]
+
+vconfigurar = net_connect.send_config_set(bgpr6)
+
+print("Configuracao de BGP nos dispositivos executado com sucesso")
